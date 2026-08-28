@@ -1,0 +1,26 @@
+{
+  "request_id": "request-a-self",
+  "received": "2026-02-11",
+  "applicant": {
+    "name": "Thomas Byrne",
+    "relationship_to_patient": "self",
+    "note": "Former patient, now an adult, requesting his own childhood record."
+  },
+  "patient": {
+    "name": "Thomas Byrne",
+    "date_of_birth": "1990-03-14",
+    "ur_number": "4471902",
+    "aliases": [
+      "Thomas Whelan",
+      "Tom Byrne",
+      "T. Byrne",
+      "Thomas Byrnes"
+    ],
+    "alias_note": "Recorded as Whelan from 2003 following a change of name. 'Byrnes' is a recurring clerical misspelling, not a separate person."
+  },
+  "scope": {
+    "date_range": ["1997-01-01", "2004-12-31"],
+    "document_classes": "all",
+    "description": "The complete paediatric record."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "request_id": "request-b-guardian",
+  "received": "1999-05-04",
+  "applicant": {
+    "name": "Sandra Byrne",
+    "relationship_to_patient": "parent_guardian",
+    "note": "Mother and sole guardian at the time of the request, seeking her child's record while he was still a minor."
+  },
+  "patient": {
+    "name": "Thomas Byrne",
+    "date_of_birth": "1990-03-14",
+    "ur_number": "4471902",
+    "aliases": [
+      "Tom Byrne",
+      "T. Byrne",
+      "Thomas Byrnes"
+    ],
+    "alias_note": "The Whelan surname postdates this request and should not appear in a bundle scoped to it."
+  },
+  "scope": {
+    "date_range": ["1997-01-01", "1999-05-04"],
+    "document_classes": "all",
+    "description": "Records to date."
+  },
+  "why_this_request_exists": "The same bundle, a different applicant. Sandra Byrne is a third party under request-a and the applicant here, so her name is exempt in one and releasable in the other. Gerald Byrne is a third party in both, but the social work note that records Sandra's allegations about him is deliberative-adjacent material she authored, and the confidential notifier stays protected regardless of who is asking. No detector output changes between the two runs; only the rulebook's answer does."
+}

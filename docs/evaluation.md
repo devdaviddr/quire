@@ -4,7 +4,9 @@ The corpus defines the target before any model runs. Without it, "the redaction 
 
 ## The corpus
 
-`corpus/` ships a synthetic bundle of fictional patient records with a ground-truth redaction map: for every document, every span that must be redacted, the ground it falls under, and why.
+`corpus/` ships a synthetic bundle of fictional patient records with a ground-truth redaction map: for every document, every span that must be redacted, the ground it falls under, and why. It is built — eleven documents across all seven record types, 61 mapped spans, all six grounds exercised. See [corpus/README.md](../corpus/README.md) for the layout and the per-document breakdown.
+
+Crucially it ships **two request contexts over the same bundle** — the patient as an adult, and his mother as guardian. Thirteen spans require a different action between them with no change to the documents. A system that treats the request as metadata rather than a pipeline input fails those thirteen.
 
 **No real patient information is used at any stage of this build.** Every name, date, identifier, and clinical detail in the corpus is fabricated.
 

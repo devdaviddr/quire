@@ -1,0 +1,382 @@
+{
+  "bundle_id": "byrne-4471902",
+  "synthetic": true,
+  "notice": "Every name, date, identifier, address, provider number and clinical detail in this corpus is fabricated. No real patient information is used at any stage of this build.",
+
+  "vocabulary": {
+    "roles": [
+      "patient_own",
+      "third_party",
+      "clinician_professional",
+      "confidential_source",
+      "deliberative"
+    ],
+    "grounds": [
+      "personal_affairs_third_party",
+      "information_given_in_confidence",
+      "secrecy_provisions_other_acts",
+      "legal_professional_privilege",
+      "internal_working_documents",
+      "health_of_applicant"
+    ],
+    "actions": {
+      "redact": "Must be withheld. A miss here is a leak.",
+      "release": "Must NOT be redacted. Redacting it is over-redaction — measured, not fatal.",
+      "consult_third_party": "Not a redaction. Requires consultation before a decision.",
+      "manual_only": "Page routed to a human; no automated proposal is acceptable."
+    }
+  },
+
+  "entities": {
+    "thomas-byrne": {
+      "canonical": "Thomas Byrne",
+      "surface_forms": ["Thomas Byrne", "BYRNE, Thomas", "Tom", "Thomas", "Thomas Byrnes", "WHELAN, Thomas", "Thomas Whelan"],
+      "identifiers": ["4471902", "14/03/1990"],
+      "note": "The patient. Applicant under request-a. Surname changes to Whelan in doc 11."
+    },
+    "sandra-byrne": {
+      "canonical": "Sandra Byrne",
+      "surface_forms": ["Sandra Byrne", "Sandra", "Sandy Byrne", "Mrs Byrnes", "his mother", "Mum"],
+      "identifiers": ["(03) 9445 2216", "0412 668 041", "14 Ravensworth Street, Preston"],
+      "note": "Mother. Third party under request-a; the applicant under request-b."
+    },
+    "gerald-byrne": {
+      "canonical": "Gerald Byrne",
+      "surface_forms": ["Gerald Byrne", "Gerald", "Thomas's father", "his father", "Dad"],
+      "note": "Father. Third party under both requests."
+    },
+    "aoife-byrne": {
+      "canonical": "Aoife Byrne",
+      "surface_forms": ["Aoife Byrne", "Aoife", "sister Aoife", "sibling"],
+      "identifiers": ["4471903"],
+      "note": "Sibling. Another patient of the same service — third party under both requests."
+    },
+    "liam-ferreira": {
+      "canonical": "Liam Ferreira",
+      "surface_forms": ["Liam Ferreira"],
+      "note": "Another patient, incidentally named. Always redact."
+    },
+    "notifier-teacher": {
+      "canonical": "the notifier",
+      "surface_forms": [
+        "The notifier",
+        "the Year 4 teacher at St Brendan's Primary",
+        "the person who drove him home on 17/03",
+        "the earlier notifier"
+      ],
+      "note": "Confidential source. Never named in the bundle — which is the point: the identifying material is the role and the surrounding context, not a name."
+    },
+    "helen-nkemelu": { "canonical": "Dr Helen Nkemelu", "surface_forms": ["Dr Helen Nkemelu", "Dr H. Nkemelu", "H. Nkemelu", "Helen"], "note": "Treating clinician, professional capacity." },
+    "ivan-petric": { "canonical": "Dr Ivan Petric", "surface_forms": ["Dr Ivan Petric"], "note": "Anaesthetist, professional capacity." },
+    "marta-kowalczyk": { "canonical": "Marta Kowalczyk", "surface_forms": ["Marta Kowalczyk", "M. Kowalczyk", "Marta"], "note": "Social worker, professional capacity — but the author of deliberative material." },
+    "priya-raghunathan": { "canonical": "Dr Priya Raghunathan", "surface_forms": ["Dr Priya Raghunathan"], "note": "Pathologist, professional capacity." },
+    "yusuf-adeyemi": { "canonical": "Dr Yusuf Adeyemi", "surface_forms": ["Dr Yusuf Adeyemi"], "note": "Radiologist, professional capacity." },
+    "anwar-siddiqui": { "canonical": "Dr Anwar Siddiqui", "surface_forms": ["Dr Anwar Siddiqui", "Dr A. Siddiqui"], "note": "GP, professional capacity." },
+    "rachel-ostrowski": { "canonical": "Rachel Ostrowski", "surface_forms": ["Rachel Ostrowski", "R. Ostrowski", "Rachel"], "note": "In-house legal counsel." },
+    "m-doherty": { "canonical": "M. Doherty, RN", "surface_forms": ["M. Doherty"], "note": "Nurse, professional capacity." }
+  },
+
+  "documents": [
+    {
+      "id": "01-consent-form",
+      "file": "documents/01-consent-form-1997-11-20.md",
+      "record_type": "consent_form",
+      "spans": [
+        { "text": "Sandra Byrne", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "The mother's identity is her own personal affairs, not the applicant's." },
+          "request-b": { "action": "release", "why": "Sandra Byrne is the applicant here — her own information is released to her." } },
+        { "text": "(03) 9445 2216 / 0412 668 041", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party contact details." },
+          "request-b": { "action": "release", "why": "The applicant's own contact details." } },
+        { "text": "14 Ravensworth Street, Preston", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party address. Note this is also the applicant's childhood address — an entity-attribution judgement the reviewer should see, not a silent decision." },
+          "request-b": { "action": "release", "why": "The applicant's own address." } },
+        { "text": "Dr Helen Nkemelu", "entity": "helen-nkemelu", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "A treating clinician acting in a professional capacity is not a third party for these purposes." },
+          "request-b": { "action": "release", "why": "As above." } },
+        { "text": "Dr Ivan Petric", "entity": "ivan-petric", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity." },
+          "request-b": { "action": "release", "why": "Professional capacity." } },
+        { "text": "204418FX", "entity": "helen-nkemelu", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Provider number, professional identifier. A generic PII scrubber redacts this; that is the failure this corpus exists to catch." },
+          "request-b": { "action": "release", "why": "As above." } },
+        { "text": "BYRNE, Thomas", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant's own information." },
+          "request-b": { "action": "release", "why": "Guardian is entitled to the child's record." } }
+      ]
+    },
+
+    {
+      "id": "02-progress-note-handwritten",
+      "file": "documents/02-progress-note-1997-11-22.md",
+      "record_type": "progress_note",
+      "page_outcome": "manual_only",
+      "hard_case": "handwriting",
+      "spans": [],
+      "expected_behaviour": "The page is substantially handwritten. The required outcome is that the whole page routes to the manual-only queue. Emitting span proposals here is a failure even if the proposals happen to be correct, because it invites the reviewer to trust an OCR pass that could not read the page. Scoring: any automated redaction proposal on this page counts against the run."
+    },
+
+    {
+      "id": "03-progress-note",
+      "file": "documents/03-progress-note-1998-03-14.md",
+      "record_type": "progress_note",
+      "spans": [
+        { "text": "his mother Sandra", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party." },
+          "request-b": { "action": "release", "why": "The applicant." } },
+        { "text": "sister Aoife Byrne", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "A sibling's identity and her diagnosis are her personal affairs, not the applicant's, even in a family history." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Aoife is a third party to this request too — the guardian's entitlement runs to Thomas's record, not Aoife's." } },
+        { "text": "4471903", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Another patient's UR number." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "carries the same coeliac diagnosis, confirmed on serology last year", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "A third party's health information. Redacting the name alone leaves 'sister ... same coeliac diagnosis' — still identifying, because the applicant has one sister." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "Maternal grandmother reportedly had \"stomach trouble\"", "entity": null, "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "A third party identified by relationship rather than name. Unnamed does not mean unidentifiable." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "Thomas's father Gerald", "entity": "gerald-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party under this request too." } },
+        { "text": "has been arriving intoxicated at contact visits", "entity": "gerald-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "An allegation about a third party's conduct is his personal affairs. Removing 'Gerald' alone is insufficient — 'Thomas's father' identifies him." },
+          "request-b": { "action": "consult_third_party", "why": "The applicant is the person who made the allegation, so it is partly her own information — but release would disclose material about Gerald to the person in dispute with him. This is a consultation, not a redaction, and not an automated decision." } },
+        { "text": "Liam Ferreira", "entity": "liam-ferreira", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Another patient, incidentally named. The single clearest must-redact in the bundle." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "Bed 4", "entity": "liam-ferreira", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "With the ward, date and discharge time already present, the bed number contributes to identifying the other patient." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "Dr Helen Nkemelu", "entity": "helen-nkemelu", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity." },
+          "request-b": { "action": "release", "why": "Professional capacity." } },
+        { "text": "ext 2214", "entity": "helen-nkemelu", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "A hospital extension is a work contact, not personal. Contrast the mobile number in doc 01." },
+          "request-b": { "action": "release", "why": "As above." } },
+        { "text": "M. Doherty, RN", "entity": "m-doherty", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity." },
+          "request-b": { "action": "release", "why": "Professional capacity." } }
+      ]
+    },
+
+    {
+      "id": "04-pathology",
+      "file": "documents/04-pathology-1998-03-16.md",
+      "record_type": "pathology",
+      "spans": [
+        { "text": "BYRNE, Aoife", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Another patient's result inside the applicant's report." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "4471903", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Another patient's UR." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "shows anti-tTG IgA 96 U/mL", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "A third party's clinical result. The name and UR beside it are not the only identifying content." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "Anti-tissue transglutaminase IgA 4 U/mL", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant's own result." },
+          "request-b": { "action": "release", "why": "The child's result, to the guardian." } },
+        { "text": "Dr Priya Raghunathan", "entity": "priya-raghunathan", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity." },
+          "request-b": { "action": "release", "why": "Professional capacity." } }
+      ]
+    },
+
+    {
+      "id": "05-social-work-note",
+      "file": "documents/05-social-work-note-1998-03-20.md",
+      "record_type": "social_work_note",
+      "hard_case": "role_only_identification, re_identifiable_from_context, secrecy_provision",
+      "spans": [
+        { "text": "The notifier has asked that their identity not be disclosed", "entity": "notifier-teacher", "role": "confidential_source",
+          "request-a": { "action": "redact", "ground": "information_given_in_confidence", "why": "An undertaking of confidence was given and recorded." },
+          "request-b": { "action": "redact", "ground": "information_given_in_confidence", "why": "The undertaking runs against both parents by its terms." } },
+        { "text": "the Year 4 teacher at St Brendan's Primary who supervises the Tuesday afternoon swimming group Thomas attends, and who was the person who drove him home on 17/03", "entity": "notifier-teacher", "role": "confidential_source",
+          "hard_case": "re_identifiable_from_context",
+          "request-a": { "action": "redact", "ground": "information_given_in_confidence", "why": "The notifier is never named, so a name-based detector finds nothing to redact here. Every clause is separately identifying: one Year 4 teacher, one named school, one swimming group, one specific date. This is the span most likely to be missed, and missing it identifies a protected notifier." },
+          "request-b": { "action": "redact", "ground": "information_given_in_confidence", "why": "As above." } },
+        { "text": "A report has been made to the Department under the mandatory reporting provisions", "entity": null, "role": "third_party",
+          "request-a": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "Child protection material restricted by a secrecy provision in another Act — a different ground from the personal-affairs one, and a rulebook that only knows personal affairs will cite the wrong section." },
+          "request-b": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "As above." } },
+        { "text": "CP-1998-0332", "entity": null, "role": "third_party",
+          "request-a": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "Departmental file reference." },
+          "request-b": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "As above." } },
+        { "text": "Sandra Byrne states that Gerald Byrne has attended three recent contact visits while intoxicated", "entity": "gerald-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "One parent's allegation about the other. Both are third parties to this applicant." },
+          "request-b": { "action": "consult_third_party", "why": "The applicant made the statement, but it is adverse material about an identifiable third party. Consultation, not an automated release or redaction." } },
+        { "text": "Gerald Byrne was contacted by telephone on 19/03. He denies the allegations", "entity": "gerald-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "A third party's response to allegations about him." },
+          "request-b": { "action": "consult_third_party", "why": "Gerald's own account, sought from him during the hospital's involvement." } },
+        { "text": "Writer's view is that the marital conflict, rather than the child's clinical condition, is driving the escalation", "entity": "marta-kowalczyk", "role": "deliberative",
+          "request-a": { "action": "redact", "ground": "internal_working_documents", "why": "The author's opinion, not a clinical finding — deliberative material that is not part of the clinical record proper." },
+          "request-b": { "action": "redact", "ground": "internal_working_documents", "why": "As above, and it characterises the applicant." } },
+        { "text": "Marta Kowalczyk, Senior Social Worker", "entity": "marta-kowalczyk", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity. The author's identity is releasable even where her opinion is not." },
+          "request-b": { "action": "release", "why": "Professional capacity." } },
+        { "text": "Thomas presents as settled on the ward and did not raise concerns when seen alone", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant's own information." },
+          "request-b": { "action": "release", "why": "The child's clinical presentation, to the guardian." } }
+      ]
+    },
+
+    {
+      "id": "06-discharge-summary",
+      "file": "documents/06-discharge-summary-1998-04-02.md",
+      "record_type": "discharge_summary",
+      "render_variants": ["clean", "degraded"],
+      "hard_case": "duplicate_at_two_ocr_qualities",
+      "consistency_requirement": "Both variants must yield the same span set and the same decisions. A span found in the clean render and missed in the degraded one is a consistency failure and, because the degraded copy would ship in the release package, also a leak.",
+      "spans": [
+        { "text": "Gerald Byrne", "entity": "gerald-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party." } },
+        { "text": "Ongoing family court proceedings between the parents", "entity": null, "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "The parents' legal proceedings are their personal affairs." },
+          "request-b": { "action": "consult_third_party", "why": "The applicant is a party to those proceedings; Gerald is the other." } },
+        { "text": "Contact arrangements are the subject of a departmental notification", "entity": null, "role": "third_party",
+          "request-a": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "Reveals the existence of a child protection notification." },
+          "request-b": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "As above." } },
+        { "text": "Sandra Byrne, 14 Ravensworth Street, Preston", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party name and address in the copy-to line." },
+          "request-b": { "action": "release", "why": "The applicant's own name and address." } },
+        { "text": "Dr Anwar Siddiqui, Preston Family Practice, (03) 9478 1120", "entity": "anwar-siddiqui", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Treating GP, professional capacity, practice contact details." },
+          "request-b": { "action": "release", "why": "As above." } },
+        { "text": "Coeliac disease, established 1997, currently well controlled", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant's own diagnosis." },
+          "request-b": { "action": "release", "why": "The child's diagnosis, to the guardian." } }
+      ]
+    },
+
+    {
+      "id": "07-correspondence",
+      "file": "documents/07-correspondence-1999-02-08.md",
+      "record_type": "correspondence",
+      "hard_case": "name_variants_and_misspellings",
+      "consistency_requirement": "'Sandy Byrne' and 'Mrs Byrnes' must resolve to the same entity as 'Sandra Byrne' elsewhere in the bundle, and 'Thomas Byrnes' to the patient. Treating a misspelling as a new person produces inconsistent redaction across pages, which the consistency metric is designed to catch.",
+      "spans": [
+        { "text": "Thomas Byrnes", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant, misspelt. A system that fails to resolve this will over-redact the applicant's own record." },
+          "request-b": { "action": "release", "why": "As above." } },
+        { "text": "his mother Sandy Byrne", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Same person as 'Sandra Byrne'; must be redacted identically." },
+          "request-b": { "action": "release", "why": "The applicant." } },
+        { "text": "Mrs Byrnes", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Same person again, misspelt." },
+          "request-b": { "action": "release", "why": "The applicant." } },
+        { "text": "contact with his father is now supervised", "entity": "gerald-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party identified by relationship." },
+          "request-b": { "action": "consult_third_party", "why": "Concerns the applicant's own family court matter and an identifiable third party." } },
+        { "text": "through the school nurse rather than the earlier notifier", "entity": "notifier-teacher", "role": "confidential_source",
+          "request-a": { "action": "redact", "ground": "information_given_in_confidence", "why": "Referring to 'the earlier notifier' confirms a notifier exists and distinguishes them from the school nurse — narrowing the field. The confidence obligation follows the reference, not the name." },
+          "request-b": { "action": "redact", "ground": "information_given_in_confidence", "why": "As above." } },
+        { "text": "Dr Anwar Siddiqui", "entity": "anwar-siddiqui", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity." },
+          "request-b": { "action": "release", "why": "Professional capacity." } }
+      ]
+    },
+
+    {
+      "id": "08-imaging-report",
+      "file": "documents/08-imaging-report-2001-07-11.md",
+      "record_type": "imaging_report",
+      "hard_case": "named_gap_dicom_burnt_in",
+      "spans": [
+        { "text": "Dr Yusuf Adeyemi", "entity": "yusuf-adeyemi", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Professional capacity." },
+          "request-b": { "action": "release", "why": "Professional capacity." } },
+        { "text": "Greulich and Pyle bone age 10 years 6 months", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant's own finding." },
+          "request-b": { "action": "release", "why": "The child's finding, to the guardian." } },
+        { "text": "burnt-in demographic overlay in the top-left of each image", "entity": null, "role": "patient_own",
+          "request-a": { "action": "manual_only", "why": "Pixel redaction of burnt-in DICOM annotation is out of scope for this build. The required outcome is that the limitation is surfaced to the reviewer as a named gap — not silently ignored, and not falsely reported as handled." },
+          "request-b": { "action": "manual_only", "why": "As above." } }
+      ]
+    },
+
+    {
+      "id": "09-legal-advice",
+      "file": "documents/09-legal-advice-2002-05-30.md",
+      "record_type": "correspondence",
+      "document_outcome": "redact_in_full",
+      "spans": [
+        { "text": "PRIVILEGED AND CONFIDENTIAL — LEGAL ADVICE", "entity": "rachel-ostrowski", "role": "deliberative",
+          "request-a": { "action": "redact", "ground": "legal_professional_privilege", "why": "Advice from in-house counsel to the hospital. The whole document is privileged; span-level proposals here should roll up to a document-level outcome." },
+          "request-b": { "action": "redact", "ground": "legal_professional_privilege", "why": "As above." } },
+        { "text": "My advice is as follows.", "entity": "rachel-ostrowski", "role": "deliberative",
+          "request-a": { "action": "redact", "ground": "legal_professional_privilege", "why": "Substance of the advice." },
+          "request-b": { "action": "redact", "ground": "legal_professional_privilege", "why": "As above." } },
+        { "text": "The notifier's identity is protected and must not be produced in any form", "entity": "notifier-teacher", "role": "confidential_source",
+          "request-a": { "action": "redact", "ground": "legal_professional_privilege", "why": "Privileged, and separately protected as information given in confidence. A span attracting two grounds should cite the stronger one and record the other — collapsing to a single ground silently loses the fallback if privilege is later waived." },
+          "request-b": { "action": "redact", "ground": "legal_professional_privilege", "why": "As above." } },
+        { "text": "Rachel Ostrowski, Senior Legal Counsel", "entity": "rachel-ostrowski", "role": "clinician_professional",
+          "request-a": { "action": "redact", "ground": "legal_professional_privilege", "why": "Ordinarily a professional-capacity name would be released, but here it is part of a wholly privileged document. This is the case where the role classification and the correct outcome diverge — the rulebook, not the role, decides." },
+          "request-b": { "action": "redact", "ground": "legal_professional_privilege", "why": "As above." } }
+      ]
+    },
+
+    {
+      "id": "10-internal-email",
+      "file": "documents/10-internal-email-2002-06-03.md",
+      "record_type": "correspondence",
+      "spans": [
+        { "text": "My view is we hold the line on the social work file", "entity": "marta-kowalczyk", "role": "deliberative",
+          "request-a": { "action": "redact", "ground": "internal_working_documents", "why": "Deliberative material about how to handle the matter, not part of the clinical record." },
+          "request-b": { "action": "redact", "ground": "internal_working_documents", "why": "As above." } },
+        { "text": "Option (a) will read as obstructive to the mother, who has already complained twice about delays", "entity": "sandra-byrne", "role": "deliberative",
+          "request-a": { "action": "redact", "ground": "internal_working_documents", "why": "Deliberative, and also characterises a third party." },
+          "request-b": { "action": "redact", "ground": "internal_working_documents", "why": "Deliberative. Note it characterises the applicant herself — releasing it is not a third-party breach, but it remains an internal working document." } },
+        { "text": "I would expect it to be distressing and possibly harmful to his engagement with treatment", "entity": "thomas-byrne", "role": "deliberative",
+          "request-a": { "action": "redact", "ground": "health_of_applicant", "why": "The sixth ground, and the only span in the bundle that reaches it: material about the applicant's own health where disclosure direct to him may be prejudicial. Note the direction — this is redacted from the applicant BECAUSE it concerns him, which inverts the usual logic and is easy to get backwards." },
+          "request-b": { "action": "redact", "ground": "internal_working_documents", "why": "Not the health-of-applicant ground here: the applicant is the mother, not the patient. Same span, different ground, purely because the request changed." } },
+        { "text": "Rachel Ostrowski", "entity": "rachel-ostrowski", "role": "clinician_professional",
+          "request-a": { "action": "release", "why": "Named in a header, professional capacity. Unlike doc 09, this document is not privileged in full." },
+          "request-b": { "action": "release", "why": "As above." } }
+      ]
+    },
+
+    {
+      "id": "11-progress-note-alias",
+      "file": "documents/11-progress-note-2004-01-19.md",
+      "record_type": "progress_note",
+      "hard_case": "alias_after_name_change",
+      "spans": [
+        { "text": "WHELAN, Thomas (formerly BYRNE)", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant under his changed surname. A system keyed to the name on the request form will not recognise him and will redact his own record as a third party." },
+          "request-b": { "action": "release", "why": "Out of scope by date for request-b, but included so a scoping error is visible rather than silent." } },
+        { "text": "He asked that the file be updated and that correspondence not go to the Byrne address", "entity": "thomas-byrne", "role": "patient_own",
+          "request-a": { "action": "release", "why": "The applicant's own stated preference." },
+          "request-b": { "action": "release", "why": "As above." } },
+        { "text": "He is aware there was a report made to the Department when he was younger and asked who made it", "entity": "notifier-teacher", "role": "confidential_source",
+          "request-a": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "Confirms the notification. The applicant already knowing it exists does not release the hospital from the restriction — a tempting but wrong inference." },
+          "request-b": { "action": "redact", "ground": "secrecy_provisions_other_acts", "why": "As above." } },
+        { "text": "Sister Aoife (UR 4471903)", "entity": "aoife-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party, and confirms she is a patient of the same service." },
+          "request-b": { "action": "redact", "ground": "personal_affairs_third_party", "why": "As above." } },
+        { "text": "his mother", "entity": "sandra-byrne", "role": "third_party",
+          "request-a": { "action": "redact", "ground": "personal_affairs_third_party", "why": "Third party referred to by relationship only, with no name to match on." },
+          "request-b": { "action": "release", "why": "The applicant, referred to by relationship." } }
+      ]
+    }
+  ],
+
+  "coverage": {
+    "record_types": ["consent_form", "progress_note", "pathology", "social_work_note", "discharge_summary", "correspondence", "imaging_report"],
+    "grounds_exercised": ["personal_affairs_third_party", "information_given_in_confidence", "secrecy_provisions_other_acts", "legal_professional_privilege", "internal_working_documents", "health_of_applicant"],
+    "hard_cases": {
+      "name_variants_and_misspellings": ["07-correspondence"],
+      "role_only_identification": ["05-social-work-note", "03-progress-note", "11-progress-note-alias"],
+      "re_identifiable_from_context": ["05-social-work-note", "03-progress-note"],
+      "duplicate_at_two_ocr_qualities": ["06-discharge-summary"],
+      "handwriting": ["02-progress-note-handwritten"],
+      "alias_after_name_change": ["11-progress-note-alias"],
+      "named_gap_dicom_burnt_in": ["08-imaging-report"]
+    },
+    "same_span_different_answer": [
+      "sandra-byrne throughout — redact under request-a, release under request-b",
+      "10-internal-email 'distressing and possibly harmful' — health_of_applicant under request-a, internal_working_documents under request-b",
+      "05-social-work-note allegations — redact under request-a, consult_third_party under request-b"
+    ]
+  }
+}
