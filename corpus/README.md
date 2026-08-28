@@ -11,6 +11,8 @@ same document duplicated at different OCR quality, and a page of handwriting.
 **No real patient information is used at any stage.** Every name, date,
 identifier, and clinical detail here is fabricated.
 
-Mounted read-only into the API container at `/corpus`.
+Mounted read-only into the API container at `/corpus`. See
+[docs/evaluation.md](../docs/evaluation.md) for the hard cases and the four
+metrics the harness reports.
 
 Not yet populated.
