@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: quire
+      POSTGRES_PASSWORD: quire
+      POSTGRES_DB: quire
+    volumes:
+      - quire-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quire -d quire"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      DATABASE_URL: postgresql+psycopg://quire:quire@db:5432/quire
+      QUIRE_DATA_DIR: /data
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      QUIRE_MODEL: ${QUIRE_MODEL:-claude-opus-5}
+    ports:
+      - "${QUIRE_PORT:-8000}:8000"
+    volumes:
+      - ./api:/srv
+      - ./corpus:/corpus:ro
+      - quire-data:/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  quire-db:
+  quire-data:

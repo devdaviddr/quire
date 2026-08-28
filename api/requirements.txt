@@ -1,0 +1,18 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+psycopg[binary]
+alembic
+
+# pipeline
+pymupdf
+pytesseract
+pillow
+anthropic
+# spacy + en_core_web_lg land with the NER detector (stage 3b)
+
+# tests
+pytest
+httpx
