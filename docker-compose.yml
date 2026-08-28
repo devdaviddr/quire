@@ -19,10 +19,12 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://quire:quire@db:5432/quire
       QUIRE_DATA_DIR: /data
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
-      QUIRE_MODEL: ${QUIRE_MODEL:-claude-opus-5}
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY:-}
+      QUIRE_LLM_BASE_URL: ${QUIRE_LLM_BASE_URL:-https://integrate.api.nvidia.com/v1}
+      QUIRE_LLM_MODEL: ${QUIRE_LLM_MODEL:-nvidia/nemotron-3-super-120b-a12b}
+      QUIRE_LLM_CONCURRENCY: ${QUIRE_LLM_CONCURRENCY:-4}
     ports:
-      - "${QUIRE_PORT:-8000}:8000"
+      - "${QUIRE_API_PORT:-8000}:8000"
     volumes:
       - ./api:/srv
       - ./corpus:/corpus:ro
@@ -30,6 +32,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  web:
+    build: ./web
+    ports:
+      - "${QUIRE_WEB_PORT:-5173}:5173"
+    volumes:
+      - ./web:/srv
+      # Keep the image's node_modules — the bind mount above would otherwise
+      # hide them behind the host directory, which has none.
+      - /srv/node_modules
+    depends_on:
+      - api
 
 volumes:
   quire-db:

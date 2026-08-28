@@ -19,3 +19,6 @@ build/
 /out/
 *.pdf
 !corpus/**/*.pdf
+
+# build artefacts
+*.tsbuildinfo

@@ -1,34 +1,52 @@
 # Tech stack
 
-Every choice here is downstream of a constraint in the [client brief](client-brief.md) or one of the two rules in [architecture.md](architecture.md). Nothing is here because it is conventional.
+Local-first: `docker compose up` gives you the whole system on one machine, with no cloud account, no managed database, and no object store. Every choice below is downstream of a constraint in the [client brief](client-brief.md) or one of the two rules in [architecture.md](architecture.md).
 
 | Layer | Choice | Why |
 | --- | --- | --- |
-| API | Python 3.12, FastAPI, Uvicorn | The rulebook must be plain readable Python; the API lives beside it rather than across a process boundary |
-| PDF | PyMuPDF | Word-level bounding boxes on read, and true content removal on write (`apply_redactions`) rather than a black rectangle over live text |
-| OCR | Tesseract | Word-level boxes for scanned and faxed pages; its confidence output is also the signal for routing handwriting to the manual queue |
-| Structured detectors | Regex + checksum rules | Identifiers with a verifiable shape — deterministic, offline, no model needed |
-| NER | spaCy | People, places, and organisations across the bundle |
-| Contextual detector | Claude Opus 5 (`claude-opus-5`) | Spans only readable in context — a person identifiable by role, a confidential source, deliberative material |
-| Rulebook | Plain Python + pytest | A closed set of exemption grounds, unit-tested, runs offline with no model in the loop |
+| Orchestration | Docker Compose — `db`, `api`, `web` | Three services, one command, no host installs beyond Docker |
+| Frontend | React 19, Vite, TypeScript | Vite dev server proxies `/api`, so the browser is same-origin and there is no CORS config to maintain |
+| Backend | Python 3.12, FastAPI, Pydantic v2 | The rulebook must be plain readable Python; the API lives beside it |
 | Database | PostgreSQL 16, SQLAlchemy, Alembic | Spans, entities, decisions, append-only audit trail |
-| Storage | Local volume | Bundles and outputs stay on disk; no object store, no cloud dependency |
-| Review UI | React + Vite + TypeScript, pdf.js | Page render with a bounding-box overlay *(not yet implemented)* |
-| Evaluation | pytest + a CLI over `corpus/` | Recall per ground, over-redaction rate, leak rate, consistency |
+| Storage | Local Docker volume | Bundles and outputs stay on disk |
+| PDF | PyMuPDF | Word-level boxes on read, true content removal on write (`apply_redactions`) |
+| OCR | Tesseract, bundled in the API image | Word-level boxes for scanned pages; its confidence output routes handwriting to the manual queue |
+| Structured detectors | Regex + checksum rules | Identifiers with a verifiable shape — deterministic, offline |
+| NER | spaCy | People, places, organisations across the bundle |
+| Contextual detector | NVIDIA Nemotron 3 Super via NIM | The one hosted call; see below |
+| Rulebook | Plain Python + pytest | A closed set of grounds, unit-tested, no model in the loop |
+| Evaluation | pytest + a CLI over `corpus/` | Recall per ground, over-redaction, leak rate, consistency |
 
-## Why PyMuPDF specifically
+## FastAPI, not "Pydantic"
 
-Two requirements point at the same library. Detection needs word-level bounding boxes so a span can be located on the page, and production needs redactions that genuinely remove content from the PDF content stream. PyMuPDF does both, which keeps the coordinate space consistent from detection through to output — a span located during detection is the same rectangle that gets removed, with no translation step in between to get wrong.
+Pydantic isn't an alternative to FastAPI — it's the validation library FastAPI is built on, so choosing FastAPI gets you Pydantic v2 models for free. That pairing is what we want here: the request context, spans, and decisions are all typed models, and the OpenAPI schema falls out of them rather than being maintained separately.
 
-## Why one model, behind one config value
+(PydanticAI, the agent framework, is a different thing and we don't need it. The contextual detector is one structured call per page, not an agent loop — a plain HTTP client with a JSON schema is less machinery and one less dependency to track.)
 
-The contextual detector is the only stage that talks to a model. That is a deliberate boundary: it means the rulebook, the pattern rules, the ingest pipeline, and the entire output path run offline and deterministically. The exemption proposals can be regenerated and unit-tested without an API key.
+## Where "local-first" stops, and why that's the boundary
 
-`QUIRE_MODEL` is a single string. Swapping it changes one stage and nothing else.
+Everything runs on your machine except one thing: pipeline stage 3c, the contextual detector, which calls NVIDIA NIM. That is the only network dependency, and it's a deliberate line rather than an accident.
+
+The consequence is that **ingest, the pattern and checksum rules, entity resolution, the rulebook, and the entire output path run offline**. Exemption proposals are reproducible without an API key — you can re-run the rulebook against stored spans and get the same citations, which is what makes the [evaluation harness](evaluation.md) meaningful.
+
+**The detector is swappable because NIM is OpenAI-compatible.** The same client drives a local llama.cpp or Ollama server; only the base URL and model name change:
+
+```bash
+QUIRE_LLM_BASE_URL=http://host.docker.internal:11434/v1
+QUIRE_LLM_MODEL=gpt-oss
+```
+
+That keeps a fully-offline path open, at some cost in detection quality on the context-dependent cases that motivate stage 3c in the first place.
+
+## Why Nemotron
+
+Free-tier NIM keys are rate-limited rather than token-billed, so a 200-page bundle costs throughput rather than money — which suits a teaching build that people will run repeatedly against the same corpus. `nemotron-3-super-120b-a12b` runs ~7–10s per page and, counter-intuitively, is faster than the smaller nano model.
+
+The client compensates for several undocumented behaviours — `nvext.guided_json` silently failing, intermittently malformed JSON, silent truncation, and role misclassification from bare enum labels. All of it is written down in [model-notes.md](model-notes.md), with the measurements behind each decision.
 
 ## Deliberate omissions
 
-- **No queue, no workers.** Processing is synchronous. A 200-page ceiling makes that viable, and it keeps the pipeline readable as a straight line rather than a set of message handlers.
+- **No queue, no workers.** Processing is synchronous. The 200-page ceiling makes that viable and keeps the pipeline readable as a straight line. Page-level concurrency inside a run is bounded by `QUIRE_LLM_CONCURRENCY`.
 - **No object store.** Local volume. A demo should not need cloud credentials.
 - **No auth.** Named as out of scope in the brief; adding it would obscure the boundaries this build exists to show.
-- **No ORM-generated API layer.** The schema is small and the shapes are specific; hand-written models are shorter than the configuration to generate them.
+- **No production frontend build.** The `web` service runs the Vite dev server with hot reload. A static build behind nginx is a deployment concern, and this does not deploy.
