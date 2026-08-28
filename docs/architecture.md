@@ -4,7 +4,7 @@
 
 Unlike an invoice, a page of a clinical record has no fixed answer. The same name is exempt or not depending on who is asking. Every run is therefore conditioned on:
 
-- **Applicant identity** and their relationship to the patient — self, parent or guardian, legal representative, agency
+- **Applicant identity** and their relationship to the patient — self, parent, guardian or substitute decision-maker, legal representative, agency
 - **Scope** of the request, including any date range or document class
 - **Patient identity**, including known aliases and previous names
 

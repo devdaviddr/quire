@@ -20,6 +20,14 @@ The corpus is deliberately salted with hard cases:
 
 Each of these exists because it is a way the system can look like it is working while failing. A harness that only measures clean cases measures nothing.
 
+### Why the corpus is paediatric
+
+Nothing in the pipeline, the rulebook, or the exemption catalog is specific to children's health — Quire applies to hospital records generally, and the [client brief](client-brief.md) describes one hospital rather than the only one.
+
+The corpus is paediatric because that is where the hardest applicant-context cases live. A paediatric bundle produces a triangle a general adult record does not: a former patient now an adult requesting their own childhood record, a parent or guardian requesting a child's record, and a second parent whose statements appear in that same record as a third party. The same name is exempt in one of those requests and releasable in another, which is the sharpest available test of the rule that the request is an input to the pipeline rather than metadata attached to it. Add child protection material and confidential notifiers, and a single bundle exercises four of the six exemption grounds.
+
+A system that scores well on this corpus handles an adult general-medicine bundle as a simpler case. The reverse is not true, which is why the harder corpus is the one worth building.
+
 ## The four numbers
 
 | Metric | Definition | Target |

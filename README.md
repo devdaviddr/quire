@@ -1,8 +1,8 @@
 # Quire
 
-A prepared redaction review for FOI requests against paediatric clinical records.
+A prepared redaction review for FOI requests against hospital clinical records.
 
-An FOI officer at a children's hospital uploads a record bundle for a specific request. Quire locates every candidate span, classifies its role relative to the applicant, and proposes an exemption ground for each one. The officer confirms or removes each proposal, and Quire produces a release package with the redacted content genuinely removed, a schedule of documents, a draft decision letter, and an audit trail.
+An FOI officer at a public hospital uploads a record bundle for a specific request. Quire locates every candidate span, classifies its role relative to the applicant, and proposes an exemption ground for each one. The officer confirms or removes each proposal, and Quire produces a release package with the redacted content genuinely removed, a schedule of documents, a draft decision letter, and an audit trail.
 
 Quire does the reading, locating, and proposing. The officer keeps every decision.
 
