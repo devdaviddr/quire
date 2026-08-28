@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+build/
+
+.DS_Store
+.idea/
+.vscode/
+
+# never commit real or scratch bundles
+/uploads/
+/out/
+*.pdf
+!corpus/**/*.pdf
